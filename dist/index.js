@@ -29,13 +29,14 @@ app.use(requestCounter_1.requestCountMiddleware);
 //     const endTime = Date.now();
 //     console.log('Request processed in: ', endTime-startTime, 'ms');
 // });
-app.get('/user', (req, res) => {
+app.get('/user', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield new Promise((resolve) => setTimeout(resolve, 1000));
     const user = {
         name: "Ishan",
         age: 20
     };
     res.send(user);
-});
+}));
 app.post('/user', (req, res) => {
     const user = req.body;
     res.send(Object.assign(Object.assign({}, user), { id: 1 }));

@@ -19,7 +19,8 @@ app.use(requestCountMiddleware);
 //     console.log('Request processed in: ', endTime-startTime, 'ms');
 // });
 
-app.get('/user', (req, res)=>{
+app.get('/user', async (req, res)=>{
+    await new Promise((resolve)=>setTimeout(resolve, 1000));
     const user = {
         name: "Ishan",
         age: 20

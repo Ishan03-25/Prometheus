@@ -7,8 +7,14 @@ const requestCounter = new client.Counter({
     labelNames: ['method', 'route', 'status_code']
 });
 
+const activeRequestsGauge = new client.Gauge({
+    name: 'active_requests',
+    help: 'Number of active requests'
+});
+
 export const requestCountMiddleware = (req: Request, res: Response, next: NextFunction)=>{
     const startTime = Date.now();
+    activeRequestsGauge.inc();
     res.on('finish', ()=>{
         const endTime = Date.now();
         console.log(`Request processed in: ${endTime-startTime}ms`);
@@ -19,6 +25,7 @@ export const requestCountMiddleware = (req: Request, res: Response, next: NextFu
             route: req.route ? req.route.path : req.path,//Routes like /user
             status_code: res.statusCode//status codes like 200, 404
         });
+        activeRequestsGauge.dec();
     });
     next();
 }
